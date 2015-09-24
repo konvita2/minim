@@ -6,3 +6,4 @@ function action1(){
     var a = document.getElementById('head');
     a.style.color = "blue";
 }
+ 

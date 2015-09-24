@@ -6,6 +6,8 @@
  * Time: 9:44
  */
 
+require_once('min-js.php');
+
 class Compressor {
 
     // пути к файлам соответствующих типов
@@ -215,8 +217,9 @@ class Compressor {
             unlink($compfile);
         }
 
-        $fout = fopen($compfile, "w+");
+        $JSqueeze = new JSqueeze();
 
+        $fout = fopen($compfile, "w+");
         foreach ($files as $file) {
             if(substr($file, -(strlen($ext) + 1)) != '.' . $ext){
                 $file .= '.' . $ext;
@@ -228,7 +231,9 @@ class Compressor {
             //$buf = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buf);
             //$buf = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buf);
 
-            fwrite($fout, $buf);
+            $buf = $JSqueeze->squeeze($buf, true, false);
+
+            fwrite($fout, $buf . ' ');
         }
         fclose($fout);
     }
